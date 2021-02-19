@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace GrpcServiceFromCode
 {
@@ -21,6 +22,10 @@ namespace GrpcServiceFromCode
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureKestrel(options =>
+                    {
+                        options.ListenLocalhost(5000, o => o.Protocols = HttpProtocols.Http2);
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }

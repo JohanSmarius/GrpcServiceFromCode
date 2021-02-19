@@ -10,7 +10,10 @@ namespace TestClient
     {
         static async Task Main(string[] args)
         {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            AppContext.SetSwitch(
+                "System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+            
+            using var channel = GrpcChannel.ForAddress("http://localhost:5000");
 
             var echoService = channel.CreateGrpcService<IEchoService>();
 
